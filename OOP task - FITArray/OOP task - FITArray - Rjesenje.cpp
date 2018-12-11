@@ -166,11 +166,11 @@ bool operator==(const FITArray<T, v>& fa1, const FITArray<T, v>& fa2) {
 }
 template<class T, int v>
 bool FITArray<T, v>::operator-=(int value) {
-	if ( _trenutno<=0)
+	if ( _trenutno<=0 || value<0 || value>_trenutno)
 		return false;
 	int t = -1;
 	for (int i = 0; i < _trenutno; i++)
-		if (_niz[i] == value)
+		if (_niz[i] == _niz[value])
 			t = i;
 	if (t == -1)
 		return false;
