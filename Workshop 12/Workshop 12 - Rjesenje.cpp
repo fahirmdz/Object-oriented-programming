@@ -222,8 +222,8 @@ void Info() {
 
 //Osmisliti i implementirati klasu Competitor (Takmicar) na nacin da se upotrebom objekta klase Dictionary 
 //svakom takmicaru dodijele odredena pitanja (rijeci bosanskog jezika) - koristiti implementiranu funkciju klase Dictionary.
-//Svakom pitanju je potrebno pridruûiti odgovor takmicara (kolekcija _odgovori).
-//Obavezno implementirati funkciju koja vröi kalkulaciju osvojenih bodova (1 tacan odgovor = 1 bod).
+//Svakom pitanju je potrebno pridru≈æiti odgovor takmicara (kolekcija _odgovori).
+//Obavezno implementirati funkciju koja vr≈°i kalkulaciju osvojenih bodova (1 tacan odgovor = 1 bod).
 //Po potrebi dopuniti klasu dodatnim atributima. 
 
 //Takmicar
@@ -410,7 +410,7 @@ int main() {
 
 		cin.get();
 		system("cls");
-		cout << "\n================================================\n============TESTIRANJE klase Dictionary==============\n\n";
+		cout << "\n================================================\n============TESTIRANJE klase Competitor==============\n\n";
 
 		Competitor c1("John", "Newman", _rijecnik);
 		c1.Info();
