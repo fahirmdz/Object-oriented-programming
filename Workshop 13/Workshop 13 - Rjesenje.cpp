@@ -312,22 +312,10 @@ public:
 		_kategorija = category;
 		_nazivTima = nazivTima;
 	}
-	Prijava(const Prijava& p) {
-		_nazivTima = p._nazivTima;
-		_datum = p._datum;
-		_kategorija = p._kategorija;
-		_tim = p._tim;
-	}
 	string GetNazivTima()const { return _nazivTima; }
 	string GetDatum()const { return _datum; }
 	Kategorija GetKategoriju()const { return _kategorija; }
 
-	Prijava& operator=(const Prijava& p) {
-		_nazivTima = p._nazivTima;
-		_datum = p._datum;
-		_kategorija = p._kategorija;
-		_tim = p._tim;
-	}
 	//Funkciju za dodavanje članova tima uz poštivanje ograničenja maksimalno dozvoljenog broja članova u timu. 
 	//SQLChallenge i CodingChallenge: 2 
 	//GameChallenge i MobileChallenge: 3 
