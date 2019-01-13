@@ -183,9 +183,13 @@ public:
 		cout << "Godiste: " << _godiste << endl;
 	}
 	friend bool operator==(Osoba&, Osoba&);
+	friend bool operator!=(Osoba&,Osoba&);
 };
 bool operator==(Osoba& o1, Osoba& o2) {
 	return strcmp(o1._ime, o2._ime) == 0 && strcmp(o1._prezime, o2._prezime) == 0;
+}
+bool operator!=(Osoba& o1, Osoba& o2) {
+	return strcmp(o1._ime, o2._ime) != 0 || strcmp(o1._prezime, o2._prezime) != 0;
 }
 
 
@@ -233,10 +237,13 @@ public:
 		cout << "Email: " << _email << endl;
 	}
 	friend bool operator==(Ucesnik&, Ucesnik&);
-
+friend bool operator!=(Ucesnik&, Ucesnik&);
 };
 bool operator==(Ucesnik& u1, Ucesnik& u2) {
 	return *dynamic_cast<Osoba*>(&u1) == *dynamic_cast<Osoba*>(&u2) && strcmp(u1._email, u2._email) == 0;
+}
+bool operator!=(Ucesnik& u1, Ucesnik& u2) {
+	return *dynamic_cast<Osoba*>(&u1) != *dynamic_cast<Osoba*>(&u2) || strcmp(u1._email, u2._email) != 0;
 }
 
 
