@@ -126,7 +126,7 @@ template<class T1,class T2>
 bool operator==(FITKolekcija<T1, T2>& fk1, FITKolekcija<T1, T2>& fk2) {
 	if (fk1._trenutno == fk2._trenutno) {
 		for (int i = 0; i < fk1._trenutno; i++)
-			if (!(fk1._elementi1[i] == fk2._elementi1[i]) || !(fk1._elementi2[i] == fk2._elementi2[i]))
+			if (fk1._elementi1[i] != fk2._elementi1[i] || fk1._elementi2[i] != fk2._elementi2[i])
 				return false;
 		return true;
 	}
@@ -462,11 +462,14 @@ public:
 
 	}
 	friend bool operator==(PrijavaProjekta&, PrijavaProjekta&);
+	friend bool operator!=(PrijavaProjekta&,PrijavaProjekta&);
 };
 bool operator==(PrijavaProjekta& pp1, PrijavaProjekta& pp2) {
 	return *dynamic_cast<Prijava*>(&pp1) == *dynamic_cast<Prijava*>(&pp2) && strcmp(pp1._nazivProjekta, pp2._nazivProjekta) == 0;
 }
-
+bool operator!=(PrijavaProjekta& pp1, PrijavaProjekta& pp2) {
+	return *dynamic_cast<Prijava*>(&pp1) != *dynamic_cast<Prijava*>(&pp2) || strcmp(pp1._nazivProjekta, pp2._nazivProjekta) != 0;
+}
 
 class FITCodingChallenge {
 	int godina;
