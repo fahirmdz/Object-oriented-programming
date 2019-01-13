@@ -676,15 +676,15 @@ public:
 	//kategoriji gdje je dodijeljen. Ocjene se kreću u rasponu od 1 do 10 za projekte, a za radove u kategoriji SQL ili CodingChallenge 
 	//u rasponu osvojenih bodova od 0 do 100. Pretpostaviti da su svi učesnici prijavljeni u kategorijama SQL i CodingChallenge predali radove.
 	void OcijeniProjekat(ClanKomisije& ck, Prijava& p, double ocjena) {
-		PrijavaProjekta* p=dynamic_cast<PrijavaProjekta*>(&p);
+		PrijavaProjekta* pp=dynamic_cast<PrijavaProjekta*>(&p);
 		
-		if (p!=nullptr && (!p->GetFinalizirano() || !p->GetPrezentacija()))
+		if (pp!=nullptr && (!p->GetFinalizirano() || !pp->GetPrezentacija()))
 			throw NedozvoljenaOperacija("Ne mozete ocijeniti projekat koji nije finaliziran ili nije odabran za prezentaciju!", __LINE__);
 
-		if (p != nullptr && (ocjena < 5 || ocjena>10))
+		if (pp != nullptr && (ocjena < 5 || ocjena>10))
 			throw NedozvoljenaOperacija("Ocjena ne mozete biti veca od 10, niti manja od 5!", __LINE__);
 
-		if (p == nullptr && ocjena < 0 || ocjena>100)
+		if (pp == nullptr && ocjena < 0 || ocjena>100)
 			throw NedozvoljenaOperacija("Bodovi za projekat ne mogu biti veci od 100 ili manji od 0!", __LINE__);
 
 		int indexPrijave = -1;
@@ -726,7 +726,7 @@ public:
 		_ocjene(_prijave[indexPrijave], temp);
 		_ocjene.GetT2(_ocjene.GetTrenutno() - 1).operator()(temp1, ocjena);
 		temp1 = nullptr;
-		p=nullptr;
+		pp=nullptr;
 	}
 
 	//Funkcija koja na osnovu imena i prezimena člana komisije ispisuje podatke o njegovim ocjenama uključujući 
