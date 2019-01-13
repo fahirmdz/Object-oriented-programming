@@ -289,9 +289,14 @@ public:
 		cout << "Firma: " << _firma << crt;
 	}
 	friend bool operator==(ClanKomisije&, ClanKomisije&);
+	friend bool operator!=(ClanKomisije&, ClanKomisije&);
 };
+
 bool operator==(ClanKomisije& ck1, ClanKomisije& ck2) {
 	return *dynamic_cast<Ucesnik*>(&ck1) == *dynamic_cast<Ucesnik*>(&ck2) && strcmp(ck1._pozicija, ck2._pozicija) == 0;
+}
+bool operator!=(ClanKomisije& ck1, ClanKomisije& ck2) {
+	return *dynamic_cast<Ucesnik*>(&ck1) != *dynamic_cast<Ucesnik*>(&ck2) || strcmp(ck1._pozicija, ck2._pozicija) != 0;
 }
 
 
@@ -404,9 +409,13 @@ public:
 	}
 
 	friend bool operator==(Prijava&, Prijava&);
+	friend bool operator!=(Prijava&, Prijava&);
 };
 bool operator==(Prijava& p1, Prijava& p2) {
 	return p1._nazivTima == p2._nazivTima && p1._kategorija == p2._kategorija;
+}
+bool operator!=(Prijava& p1, Prijava& p2) {
+	return p1._nazivTima != p2._nazivTima || p1._kategorija != p2._kategorija;
 }
 
 
