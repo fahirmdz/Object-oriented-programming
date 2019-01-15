@@ -126,7 +126,7 @@ template<class T1,class T2>
 bool operator==(FITKolekcija<T1, T2>& fk1, FITKolekcija<T1, T2>& fk2) {
 	if (fk1._trenutno == fk2._trenutno) {
 		for (int i = 0; i < fk1._trenutno; i++)
-			if (!(fk1._elementi1[i] == fk2._elementi1[i]) || !(fk1._elementi2[i] == fk2._elementi2[i]))
+			if (fk1._elementi1[i] != fk2._elementi1[i] || fk1._elementi2[i] != fk2._elementi2[i])
 				return false;
 		return true;
 	}
@@ -183,9 +183,13 @@ public:
 		cout << "Godiste: " << _godiste << endl;
 	}
 	friend bool operator==(Osoba&, Osoba&);
+	friend bool operator!=(Osoba&,Osoba&);
 };
 bool operator==(Osoba& o1, Osoba& o2) {
 	return strcmp(o1._ime, o2._ime) == 0 && strcmp(o1._prezime, o2._prezime) == 0;
+}
+bool operator!=(Osoba& o1, Osoba& o2) {
+	return strcmp(o1._ime, o2._ime) != 0 || strcmp(o1._prezime, o2._prezime) != 0;
 }
 
 
@@ -233,10 +237,13 @@ public:
 		cout << "Email: " << _email << endl;
 	}
 	friend bool operator==(Ucesnik&, Ucesnik&);
-
+friend bool operator!=(Ucesnik&, Ucesnik&);
 };
 bool operator==(Ucesnik& u1, Ucesnik& u2) {
 	return *dynamic_cast<Osoba*>(&u1) == *dynamic_cast<Osoba*>(&u2) && strcmp(u1._email, u2._email) == 0;
+}
+bool operator!=(Ucesnik& u1, Ucesnik& u2) {
+	return *dynamic_cast<Osoba*>(&u1) != *dynamic_cast<Osoba*>(&u2) || strcmp(u1._email, u2._email) != 0;
 }
 
 
@@ -282,9 +289,14 @@ public:
 		cout << "Firma: " << _firma << crt;
 	}
 	friend bool operator==(ClanKomisije&, ClanKomisije&);
+	friend bool operator!=(ClanKomisije&, ClanKomisije&);
 };
+
 bool operator==(ClanKomisije& ck1, ClanKomisije& ck2) {
 	return *dynamic_cast<Ucesnik*>(&ck1) == *dynamic_cast<Ucesnik*>(&ck2) && strcmp(ck1._pozicija, ck2._pozicija) == 0;
+}
+bool operator!=(ClanKomisije& ck1, ClanKomisije& ck2) {
+	return *dynamic_cast<Ucesnik*>(&ck1) != *dynamic_cast<Ucesnik*>(&ck2) || strcmp(ck1._pozicija, ck2._pozicija) != 0;
 }
 
 
@@ -312,22 +324,10 @@ public:
 		_kategorija = category;
 		_nazivTima = nazivTima;
 	}
-	Prijava(const Prijava& p) {
-		_nazivTima = p._nazivTima;
-		_datum = p._datum;
-		_kategorija = p._kategorija;
-		_tim = p._tim;
-	}
 	string GetNazivTima()const { return _nazivTima; }
 	string GetDatum()const { return _datum; }
 	Kategorija GetKategoriju()const { return _kategorija; }
 
-	Prijava& operator=(const Prijava& p) {
-		_nazivTima = p._nazivTima;
-		_datum = p._datum;
-		_kategorija = p._kategorija;
-		_tim = p._tim;
-	}
 	//Funkciju za dodavanje članova tima uz poštivanje ograničenja maksimalno dozvoljenog broja članova u timu. 
 	//SQLChallenge i CodingChallenge: 2 
 	//GameChallenge i MobileChallenge: 3 
@@ -409,9 +409,13 @@ public:
 	}
 
 	friend bool operator==(Prijava&, Prijava&);
+	friend bool operator!=(Prijava&, Prijava&);
 };
 bool operator==(Prijava& p1, Prijava& p2) {
 	return p1._nazivTima == p2._nazivTima && p1._kategorija == p2._kategorija;
+}
+bool operator!=(Prijava& p1, Prijava& p2) {
+	return p1._nazivTima != p2._nazivTima || p1._kategorija != p2._kategorija;
 }
 
 
@@ -474,11 +478,14 @@ public:
 
 	}
 	friend bool operator==(PrijavaProjekta&, PrijavaProjekta&);
+	friend bool operator!=(PrijavaProjekta&,PrijavaProjekta&);
 };
 bool operator==(PrijavaProjekta& pp1, PrijavaProjekta& pp2) {
 	return *dynamic_cast<Prijava*>(&pp1) == *dynamic_cast<Prijava*>(&pp2) && strcmp(pp1._nazivProjekta, pp2._nazivProjekta) == 0;
 }
-
+bool operator!=(PrijavaProjekta& pp1, PrijavaProjekta& pp2) {
+	return *dynamic_cast<Prijava*>(&pp1) != *dynamic_cast<Prijava*>(&pp2) || strcmp(pp1._nazivProjekta, pp2._nazivProjekta) != 0;
+}
 
 class FITCodingChallenge {
 	int godina;
@@ -669,13 +676,15 @@ public:
 	//kategoriji gdje je dodijeljen. Ocjene se kreću u rasponu od 1 do 10 za projekte, a za radove u kategoriji SQL ili CodingChallenge 
 	//u rasponu osvojenih bodova od 0 do 100. Pretpostaviti da su svi učesnici prijavljeni u kategorijama SQL i CodingChallenge predali radove.
 	void OcijeniProjekat(ClanKomisije& ck, Prijava& p, double ocjena) {
-		if (dynamic_cast<PrijavaProjekta*>(&p)!=nullptr && (!dynamic_cast<PrijavaProjekta*>(&p)->GetFinalizirano() || !dynamic_cast<PrijavaProjekta*>(&p)->GetPrezentacija()))
+		PrijavaProjekta* pp=dynamic_cast<PrijavaProjekta*>(&p);
+		
+		if (pp!=nullptr && (!p->GetFinalizirano() || !pp->GetPrezentacija()))
 			throw NedozvoljenaOperacija("Ne mozete ocijeniti projekat koji nije finaliziran ili nije odabran za prezentaciju!", __LINE__);
 
-		if (dynamic_cast<PrijavaProjekta*>(&p) != nullptr && (ocjena < 5 || ocjena>10))
+		if (pp != nullptr && (ocjena < 5 || ocjena>10))
 			throw NedozvoljenaOperacija("Ocjena ne mozete biti veca od 10, niti manja od 5!", __LINE__);
 
-		if (dynamic_cast<PrijavaProjekta*>(&p) == nullptr && ocjena < 0 || ocjena>100)
+		if (pp == nullptr && ocjena < 0 || ocjena>100)
 			throw NedozvoljenaOperacija("Bodovi za projekat ne mogu biti veci od 100 ili manji od 0!", __LINE__);
 
 		int indexPrijave = -1;
@@ -717,6 +726,7 @@ public:
 		_ocjene(_prijave[indexPrijave], temp);
 		_ocjene.GetT2(_ocjene.GetTrenutno() - 1).operator()(temp1, ocjena);
 		temp1 = nullptr;
+		pp=nullptr;
 	}
 
 	//Funkcija koja na osnovu imena i prezimena člana komisije ispisuje podatke o njegovim ocjenama uključujući 
