@@ -78,6 +78,8 @@ public:
 			d2d += 366;
 		else
 			d2d += 365;
+		d1d*=*d1._godina;
+		d2d*=*_godina;
 		bool d1prestupna = isPrestupna(*d1->_godina), d2prestupna = isPrestupna(*_godina);
 
 		auto brojDana = [](int x,bool prestupna) {
