@@ -1,4 +1,4 @@
-﻿//fahirmdz GitHub
+//fahirmdz GitHub
 
 #include"pch.h"
 #include <iostream>
@@ -10,6 +10,7 @@
 #include<Windows.h>
 #include<mutex>
 #include<iomanip>
+#include<chrono>
 using namespace std;
 
 const char* crt = "\n-------------------------------------------------------------\n";
@@ -94,7 +95,7 @@ public:
 		d2d += *_dan;
 		return d1d - d2d;
 	}
-	friend ostream &operator<<(ostream&,const Datum &);
+	friend ostream &operator<<(ostream&, const Datum &);
 	friend bool operator==(Datum&, Datum&);
 };
 bool operator==(Datum& d1, Datum& d2) {
@@ -106,11 +107,11 @@ ostream &operator<<(ostream &COUT, const Datum &obj)
 	return COUT;
 }
 
-class Izuzetak : public exception{
+class Izuzetak : public exception {
 	string _funkcija;
 
 public:
-	Izuzetak(const char* message,string funct):exception(message),_funkcija(funct){}
+	Izuzetak(const char* message, string funct) :exception(message), _funkcija(funct) {}
 
 	const char* what()const {
 		string x = string(exception::what()) + "  -  Funkcija: " + _funkcija;
@@ -119,7 +120,7 @@ public:
 };
 
 template <class T1, class T2>
-class Kolekcija{
+class Kolekcija {
 	T1 * _elementi1;
 	T2 * _elementi2;
 	int _trenutnoElemenata;
@@ -132,9 +133,9 @@ class Kolekcija{
 			_elementi2[i] = k._elementi2[i];
 		}
 	}
-	
+
 public:
-	Kolekcija(bool omoguciDupliranjeElemenata = false){
+	Kolekcija(bool omoguciDupliranjeElemenata = false) {
 		_trenutnoElemenata = 0;
 		_omoguciDupliranjeElemenata = omoguciDupliranjeElemenata;
 		_elementi1 = nullptr;
@@ -144,7 +145,7 @@ public:
 		if (_trenutnoElemenata > 0)
 			copyElements(k);
 	}
-	~Kolekcija(){
+	~Kolekcija() {
 		delete[]_elementi2; _elementi2 = nullptr;
 		delete[]_elementi1; _elementi1 = nullptr;
 	}
@@ -164,13 +165,13 @@ public:
 	}
 
 	bool AddElement(T1 t1, T2 t2) {
-		if (_omoguciDupliranjeElemenata && _elementi1!=nullptr)
+		if (_omoguciDupliranjeElemenata && _elementi1 != nullptr)
 			for (int i = 0; i < _trenutnoElemenata; i++)
 				if (t1 == _elementi1[i])
 					return false;
 		T1* temp1 = new T1[_trenutnoElemenata + 1];
 		T2* temp2 = new T2[_trenutnoElemenata + 1];
-		if(_trenutnoElemenata>0)
+		if (_trenutnoElemenata > 0)
 			for (int i = 0; i < _trenutnoElemenata; i++) {
 				temp1[i] = _elementi1[i];
 				temp2[i] = _elementi2[i];
@@ -201,13 +202,13 @@ public:
 		return true;
 	}
 	int GetTrenutno() const { return _trenutnoElemenata; }
-	T1& GetElement1(int lokacija) const{
+	T1& GetElement1(int lokacija) const {
 		if (lokacija < 0 || lokacija >= _trenutnoElemenata)
 			throw Izuzetak("Nepostojeca lokacija", __FUNCTION__);
 		return _elementi1[lokacija];
 	}
 
-	T2& GetElement2(int lokacija) const{
+	T2& GetElement2(int lokacija) const {
 		if (lokacija < 0 || lokacija >= _trenutnoElemenata)
 			throw Izuzetak("Nepostojeca lokacija", __FUNCTION__);
 		return _elementi2[lokacija];
@@ -215,8 +216,8 @@ public:
 
 	friend ostream &operator<< <>(ostream &, const Kolekcija &);
 };
-template<class T1,class T2>
-ostream &operator<< <>(ostream &COUT, const Kolekcija<T1,T2> &obj)
+template<class T1, class T2>
+ostream &operator<< <>(ostream &COUT, const Kolekcija<T1, T2> &obj)
 {
 	for (int i = 0; i < obj.GetTrenutno(); i++)
 		COUT << obj._elementi1[i] << " " << obj._elementi2[i] << endl;
@@ -224,31 +225,31 @@ ostream &operator<< <>(ostream &COUT, const Kolekcija<T1,T2> &obj)
 }
 
 
-class Dogadjaj{
+class Dogadjaj {
 	Datum _datumOdrzavanja;
 	Kolekcija<string, bool> * _obaveze; //cuva informaciju o obavezama koje je potrebno ispuniti prije samog dogadjaja, string se odnosi na 
 										// opis, a bool na izvrsenje te obaveze (da li je zavrsena ili ne) 
 	char *_naziv;
 	int _notificirajPrije; //oznacava broj dana prije samog dogadjaja kada ce krenuti notifikacija/podsjetnik
 	bool _rekurzivnaNotifikacija; //ako je vrijednost true onda se korisnik notificira svaki dan do _datumaOdrzavanja dogadjaja, 
-					              //a pocevsi prije dogadjaja za _brojDanaZaNotifikaciju
+								  //a pocevsi prije dogadjaja za _brojDanaZaNotifikaciju
 
 public:
 	Dogadjaj(Datum datumOdrzavanja, const char *naziv, int brojDana = 1,
-		bool rekurzivnaNotifikacija = false) : _datumOdrzavanja(datumOdrzavanja){
-		if(!regex_match(string(naziv),regex("[a-zA-Z\\s]{5,30}")))
-			throw Izuzetak("Pogresan format naziva dogadjaja!",__FUNCTION__);
+		bool rekurzivnaNotifikacija = false) : _datumOdrzavanja(datumOdrzavanja) {
+		if (!regex_match(string(naziv), regex("[a-zA-Z\\s]{5,30}")))
+			throw Izuzetak("Pogresan format naziva dogadjaja!", __FUNCTION__);
 		_naziv = AlocirajNizKaraktera(naziv);
 		_notificirajPrije = brojDana;
 		_rekurzivnaNotifikacija = rekurzivnaNotifikacija;
 		_obaveze = new Kolekcija<string, bool>;
 	}
 
-	Dogadjaj(const Dogadjaj &obj) : _datumOdrzavanja(obj._datumOdrzavanja){
+	Dogadjaj(const Dogadjaj &obj) : _datumOdrzavanja(obj._datumOdrzavanja) {
 		_naziv = AlocirajNizKaraktera(obj._naziv);
 		_notificirajPrije = obj._notificirajPrije;
 		_rekurzivnaNotifikacija = obj._rekurzivnaNotifikacija;
-		_obaveze = new Kolekcija<string,bool>(*obj._obaveze);
+		_obaveze = new Kolekcija<string, bool>(*obj._obaveze);
 	}
 	~Dogadjaj()
 	{
@@ -271,7 +272,7 @@ public:
 		_notificirajPrije = d._notificirajPrije;
 		return *this;
 	}
-	/*po vlasitom izboru definisati listu zabranjenih rijeci koje ce onemoguciti dodavanje odredjene obaveze. 
+	/*po vlasitom izboru definisati listu zabranjenih rijeci koje ce onemoguciti dodavanje odredjene obaveze.
 	Prilikom provjere koristiti regex*/
 	bool AddObavezu(const char* opis) {
 		const char* zabranjeneRijeci[] = { "dodati bodove","pokloniti" };
@@ -284,7 +285,7 @@ public:
 		_obaveze->AddElement(opis, false);
 		return true;
 	}
-	
+
 	bool oznaciZavrsenom(const char* opis) {
 		for (int i = 0; i < _obaveze->GetTrenutno(); i++)
 			if (_obaveze->GetElement1(i) == opis) {
@@ -300,10 +301,10 @@ public:
 	int GetBrojObaveza()const { return _obaveze->GetTrenutno(); }
 	int GetBrojIzvrsenihObaveza()const {
 		int x = 0;
-		for (int i = 0; i < _obaveze->GetTrenutno(); i++) 
+		for (int i = 0; i < _obaveze->GetTrenutno(); i++)
 			if (_obaveze->GetElement2(i))
 				x++;
-		
+
 		return x;
 	}
 	Datum& GetDatumOdrzavanja() { return _datumOdrzavanja; }
@@ -321,13 +322,13 @@ class Student
 	string _imePrezime;
 	vector<Dogadjaj> _dogadjaji;
 public:
-	Student():_indeks(0),_imePrezime(""){}
-	Student(int indeks, string imePrezime):_indeks(indeks){
-	if(!regex_match(imePrezime,regex("^[a-zA-Z\\s]{4,25}$")))
-		throw Izuzetak("Ime i prezime studenta nije validno!",__FUNCTION__);
-	_imePrezime = imePrezime;
+	Student() :_indeks(0), _imePrezime("") {}
+	Student(int indeks, string imePrezime) :_indeks(indeks) {
+		if (!regex_match(imePrezime, regex("^[a-zA-Z\\s]{4,25}$")))
+			throw Izuzetak("Ime i prezime studenta nije validno!", __FUNCTION__);
+		_imePrezime = imePrezime;
 	}
-	
+
 	Dogadjaj& operator[](int index) {
 		if (index < 0 || index >= (int)_dogadjaji.size())
 			throw Izuzetak("Index nije validan!", __FUNCTION__);
@@ -361,7 +362,7 @@ ostream &operator<<(ostream &COUT, const Student &obj)
 }
 
 mutex mut;
-class DLWMSReminder{
+class DLWMSReminder {
 	vector<Student> _reminderList;
 	/*-------------------------------------------------------------------------
 		Postovani Jasmin Azemovic,
@@ -371,22 +372,23 @@ class DLWMSReminder{
 		Predlazemo Vam da ispunite i ostale planirane obaveze.
 		FIT Reminder
 		-------------------------------------------------------------------------*/
-	void sendNotification(string imePrezime,string obaveza,Dogadjaj& d,int brojDana) {
+	void sendNotification(string imePrezime, string obaveza, Dogadjaj& d, int brojDana) {
 		double procenatIzvrsenihObaveza = ((double)d.GetBrojIzvrsenihObaveza() / d.GetBrojObaveza()) * 100;
 		cout << crt << "Postovani " << imePrezime << ",\n Dogadjaj " << obaveza << " je zakazan za " << brojDana << " dana, a do sada ste obavili ";
-		cout << setprecision(2)<<procenatIzvrsenihObaveza << "% obaveza vezanih za ovaj dogadjaj. Neispunjene obaveze su: \n";
+		cout << setprecision(2) << procenatIzvrsenihObaveza << "% obaveza vezanih za ovaj dogadjaj. Neispunjene obaveze su: \n";
 		Kolekcija<string, bool>* temp = d.GetObaveze();
 		int br = 0;
-		for(int i=0;i<temp->GetTrenutno();i++)
+		for (int i = 0; i < temp->GetTrenutno(); i++)
 			if (!temp->GetElement2(i)) {
 				cout << (br++) + 1 << ". " << temp->GetElement1(i) << endl;
 			}
 		cout << "\nPredlazemo Vam da ispunite i ostale planirane obaveze.\nFIT Reminder" << crt;
 		temp = nullptr;
+		this_thread::sleep_for(chrono::seconds(1));
 		d.GetNotificirajPrije()--;
 	}
 public:
-	
+
 	void AddStudent(Student& s) {
 		for (size_t i = 0; i < _reminderList.size(); i++)
 			if (_reminderList[i] == s)
@@ -400,7 +402,7 @@ public:
 		for (size_t i = 0; i < _reminderList.size(); i++)
 			if (_reminderList[i].GetIndeks() == index)
 				student = i;
-		
+
 		if (student == -1)
 			return false;
 		int dogadjajIndex = -1;
@@ -413,21 +415,21 @@ public:
 			return false;
 		return _reminderList[student][dogadjajIndex].oznaciZavrsenom(opisObaveze);
 	}
-	  /*metodi PosaljiNotifikacije se salje trenutni datum na osnovu cega ona pretrazuje sve studente koje treba
-		podsjetiti/notoficirati o dogadjajima koji se priblizavaju.
-		Koristeci multithread-ing, svim studentima se salju notifikacije sa sljedecim sadrzajem:
-		-------------------------------------------------------------------------
-		Postovani Jasmin Azemovic,
-		Dogadjaj Ispit iz PRIII je zakazan za 3 dana, a do sada ste obavili 56% obaveza vezanih za ovaj dogadjaj. Neispunjene obaveze su:
-		1.Preraditi ispitne zadatke
-		2.Samostalno vjezbati
-		Predlazemo Vam da ispunite i ostale planirane obaveze.
-		FIT Reminder
-		-------------------------------------------------------------------------
-		Dakle, notifikacije ce biti poslane svim studentima koji su dodali dogadjaj za 30.01.2018. godine i oznacili da
-		zele da budu podsjecani ponovo/rekurzivno najmanje 2 dana prije samog dogadjaja (podaci se odnose
-		na konkretan dogadjaj: Ispit iz PRIII)
-		*/
+	/*metodi PosaljiNotifikacije se salje trenutni datum na osnovu cega ona pretrazuje sve studente koje treba
+	  podsjetiti/notoficirati o dogadjajima koji se priblizavaju.
+	  Koristeci multithread-ing, svim studentima se salju notifikacije sa sljedecim sadrzajem:
+	  -------------------------------------------------------------------------
+	  Postovani Jasmin Azemovic,
+	  Dogadjaj Ispit iz PRIII je zakazan za 3 dana, a do sada ste obavili 56% obaveza vezanih za ovaj dogadjaj. Neispunjene obaveze su:
+	  1.Preraditi ispitne zadatke
+	  2.Samostalno vjezbati
+	  Predlazemo Vam da ispunite i ostale planirane obaveze.
+	  FIT Reminder
+	  -------------------------------------------------------------------------
+	  Dakle, notifikacije ce biti poslane svim studentima koji su dodali dogadjaj za 30.01.2018. godine i oznacili da
+	  zele da budu podsjecani ponovo/rekurzivno najmanje 2 dana prije samog dogadjaja (podaci se odnose
+	  na konkretan dogadjaj: Ispit iz PRIII)
+	  */
 	int PosaljiNotifikacije(Datum& d) {
 		cout << "\n::::::::REMINDER " << d << "::::::::::\n";
 		int ukupnoPoslato = 0;
@@ -437,7 +439,7 @@ public:
 				int ostaloDana = d.brojDanaIzmedju(&temp[j].GetDatumOdrzavanja());
 				if (temp[j].GetRekurzivnaNotifikacija() && ostaloDana <= temp[j].GetNotificirajPrije()) {
 					mut.lock();
-					thread t(&DLWMSReminder::sendNotification, this, _reminderList[i].GetImePrezime(), string(temp[j].GetNaziv()),ref(temp[j]), ostaloDana);
+					thread t(&DLWMSReminder::sendNotification, this, _reminderList[i].GetImePrezime(), string(temp[j].GetNaziv()), ref(temp[j]), ostaloDana);
 					t.join();
 					mut.unlock();
 					ukupnoPoslato++;
