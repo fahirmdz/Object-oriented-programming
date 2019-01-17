@@ -12,6 +12,7 @@
 #include<cstring>
 #include<cctype>
 #include<algorithm>
+#include<vector>
 /****************************************************************************
 1. SVE KLASE TREBAJU POSJEDOVATI ADEKVATAN DESTRUKTOR
 2. NAMJERNO IZOSTAVLJANJE KOMPLETNIH I/ILI POJEDINIH DIJELOVA DESTRUKTORA KOJI UZROKUJU RUNTIME ERROR ĆE BITI OZNACENO KAO "RE"
