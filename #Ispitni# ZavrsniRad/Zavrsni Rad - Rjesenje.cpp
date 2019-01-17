@@ -1,4 +1,4 @@
-﻿//fahirmdz GitHub
+//fahirmdz GitHub
 
 
 #include"pch.h"
@@ -42,14 +42,14 @@ class Kolekcija
 	T2 _elementi2[max];
 	int _trenutno;
 public:
-	Kolekcija():_trenutno(0){}
+	Kolekcija() :_trenutno(0) {}
 
 	void AddElement(const T1& elem1, const T2& elem2)
 	{
 		if (_trenutno == max)
 			throw exception("Dostigli ste maksimalan broj elemenata u kolekciji!");
 
-		for (int i = 0; i < _trenutno; i++){
+		for (int i = 0; i < _trenutno; i++) {
 			if (_elementi1[i] == *const_cast<T1*>(&elem1) || _elementi2[i] == *const_cast<T2*>(&elem2))
 				throw exception("Nije moguce dodati duple elemente u kolekciju!");
 		}
@@ -63,23 +63,25 @@ public:
 	T1 & getElement1(int lokacija) {
 		if (lokacija < 0 || lokacija >= _trenutno)
 			throw exception("Lokacija elementa nije validna!");
-		return _elementi1[lokacija]; }
+		return _elementi1[lokacija];
+	}
 
-	T2 & getElement2(int lokacija) { 
+	T2 & getElement2(int lokacija) {
 		if (lokacija < 0 || lokacija >= _trenutno)
 			throw exception("Lokacija elementa nije validna!");
-		return _elementi2[lokacija]; }
+		return _elementi2[lokacija];
+	}
 
 	int getTrenutno() { return _trenutno; }
 
 	friend ostream & operator<<(ostream &, Kolekcija<T1, T2, max> &);
 };
 
-template<class T1,class T2,int max>
+template<class T1, class T2, int max>
 ostream & operator<<(ostream & COUT, Kolekcija<T1, T2, max> & obj)
 {
 	for (size_t i = 0; i < obj._trenutno; i++)
-		COUT << obj._elementi1[i] << " " << obj._elementi2[i]<< endl;
+		COUT << obj._elementi1[i] << " " << obj._elementi2[i] << endl;
 	return COUT;
 }
 //Deklaracija klase Nastavnik omogucava njeno koristenje u klasi ZavrsniRad, a definicija je data naknadno 
@@ -94,7 +96,7 @@ class ZavrsniRad
 	string _datumOdbrane; //Format: dd.MM.gggg (najranije 2 mjeseca od datuma prijave)
 	int _ocjena;
 
-	bool PrijavaURoku(string datum,string datum2) {
+	bool PrijavaURoku(string datum, string datum2) {
 		int godina1 = stoi(string(datum.begin() + 6, datum.end())), mjesec1 = stoi(string(datum.begin() + 3, datum.begin() + 5)),
 			dan1 = stoi(string(datum.begin(), datum.begin() + 2));
 
@@ -141,10 +143,10 @@ class ZavrsniRad
 		return (d1d - d2d) > 60;
 	}
 public:
-	ZavrsniRad() :_nazivTeme(nullptr), _oblastTeme(nullptr), _datumPrijave("NEMA VRIJEDNOST"), _datumOdbrane("NEMA VRIJEDNOST"), _ocjena(5){ }
+	ZavrsniRad() :_nazivTeme(nullptr), _oblastTeme(nullptr), _datumPrijave("NEMA VRIJEDNOST"), _datumOdbrane("NEMA VRIJEDNOST"), _ocjena(5) { }
 
-	ZavrsniRad(string nazivTeme, Oblast oblastTeme, string datumPrijave){
-		
+	ZavrsniRad(string nazivTeme, Oblast oblastTeme, string datumPrijave) {
+
 		if (!regex_match(nazivTeme, regex("^[a-zA-Z0-9\\s\\-šđčćžŠĐČĆŽ]*$")))
 			throw exception("Naziv teme nije validan!");
 		if (!regex_match(datumPrijave, regex("\\d{1,2}[.-/]{1}\\d{1,2}[./-]{1}\\d{4}")))
@@ -154,7 +156,7 @@ public:
 		_datumPrijave = datumPrijave;
 		_datumOdbrane = "NIJE ODREDJEN";
 		_ocjena = 5;
-	
+
 	}
 	ZavrsniRad(const ZavrsniRad& zr) :_nazivTeme(AlocirajNizKaraktera(zr._nazivTeme)), _oblastTeme(new Oblast(*zr._oblastTeme)),
 		_datumPrijave(zr._datumPrijave), _datumOdbrane(zr._datumOdbrane), _ocjena(zr._ocjena) {
@@ -186,7 +188,7 @@ public:
 	Oblast GetOblastTeme()const { return *_oblastTeme; }
 	string GetDatumOdbrane() { return _datumOdbrane; }
 	int GetOcjena() { return _ocjena; }
-	bool GetPrijavaURoku(string datumOdbrane){ return PrijavaURoku(datumOdbrane, _datumPrijave); }
+	bool GetPrijavaURoku(string datumOdbrane) { return PrijavaURoku(datumOdbrane, _datumPrijave); }
 	vector<Nastavnik*>& GetKomisija() { return _komisija; };
 	bool GetPrijavljen() { return _datumPrijave != "NEMA VRIJEDNOST"; }
 	int GetBrojClanovaKomisije() { return _komisija.size(); }
@@ -211,10 +213,10 @@ ostream& operator<<(ostream& COUT, ZavrsniRad& r)
 	//Podatke o nastavnicima nije moguce ispisati ovdje jer klasa jos nije definisana
 	return COUT;
 }
-class Nastavnik{
+class Nastavnik {
 	string _imePrezime;
 	Oblast _oblastIzboraUZvanje;
-	Kolekcija<string, ZavrsniRad, 10> _teme; 
+	Kolekcija<string, ZavrsniRad, 10> _teme;
 	//Parametar string predstavlja broj indeksa studenta koji prijavljuje zavrsni rad kod odredjenog nastavnika
 public:
 	Nastavnik(string imePrezime, Oblast oblastIzboraUZvanje) {
@@ -232,7 +234,7 @@ public:
 		int brGotovihRadova = 0;
 		for (int i = 0; i < _teme.getTrenutno(); i++) {
 			ZavrsniRad* temp = &_teme.getElement2(i);
-			if (temp->GetDatumOdbrane() != "NEMA VRIJEDNOST"){
+			if (temp->GetDatumOdbrane() != "NEMA VRIJEDNOST") {
 				prosjecna += temp->GetOcjena();
 				brGotovihRadova++;
 			}
@@ -291,7 +293,7 @@ public:
 		//rad koji nije iz njegove oblasti funkcija treba da baci izuzetak sa odgovarajucom porukom
 
 		//indeks, naslov, oblast, datum prijave 
-	void DodajZavrsniRad(string indeks,const char* naslov,Oblast o,string datumPrijave) {
+	void DodajZavrsniRad(string indeks, const char* naslov, Oblast o, string datumPrijave) {
 		if (o != _oblastIzboraUZvanje)
 			throw exception("Ne mozete dodati zavrsni rad iz oblasti za koju ovaj nastavnik ne posjeduje izbor u zvanje!");
 		for (int i = 0; i < _teme.getTrenutno(); i++)
@@ -302,12 +304,12 @@ public:
 		_teme.AddElement(indeks, ZavrsniRad(string(naslov), o, datumPrijave));
 	}
 
-	    // Funkcija ZakaziOdbranuRada ima zadatak da studentu sa proslijedjenim brojem indeksa zakaze odbranu 
-		// zavrsnog rada sto podrazumijeva definisanje datuma odbrane i liste clanova komisije pred kojima ce 
-		// student braniti zavrsni rad. Odbrana rada se moze zakazati samo studentu koji je rad prethodno prijavio. 
-		// Komisiju trebaju ciniti najmanje 2 nastavnika koji imaju izbor u zvanje u oblasti kojoj pripada tema rada. 
-		//  U slucaju da bilo koji od navedenih uslova nije ispunjen funkcija treba	da baci izuzetak
-	void ZakaziOdbranuRada(string index,string datumOdbrane,vector<Nastavnik*> komisija) {
+	// Funkcija ZakaziOdbranuRada ima zadatak da studentu sa proslijedjenim brojem indeksa zakaze odbranu 
+	// zavrsnog rada sto podrazumijeva definisanje datuma odbrane i liste clanova komisije pred kojima ce 
+	// student braniti zavrsni rad. Odbrana rada se moze zakazati samo studentu koji je rad prethodno prijavio. 
+	// Komisiju trebaju ciniti najmanje 2 nastavnika koji imaju izbor u zvanje u oblasti kojoj pripada tema rada. 
+	//  U slucaju da bilo koji od navedenih uslova nije ispunjen funkcija treba	da baci izuzetak
+	void ZakaziOdbranuRada(string index, string datumOdbrane, vector<Nastavnik*> komisija) {
 		int indexStudenta = GetIndexTeme(index);
 
 		if (indexStudenta == -1)
@@ -334,19 +336,32 @@ public:
 ostream& operator<<(ostream& COUT, Nastavnik& n) {
 	cout << crt << "Ime i prezime: " << n._imePrezime;
 	cout << "\nOblast mentorstva: " << oblast_txt[n._oblastIzboraUZvanje] << endl;
-	cout <<crt<< "--LISTA MENTOSRTAVA--" << crt;
+	cout << crt << "--LISTA MENTOSRTAVA--" << crt;
 	for (int i = 0; i < n._teme.getTrenutno(); i++) {
 		cout << i + 1 << ". \nBroj indeksa: " << n._teme.getElement1(i) << endl;
 		vector<Nastavnik*> temp = n._teme.getElement2(i).GetKomisija();
 		cout << n._teme.getElement2(i) << endl;
 		cout << "\n--SPISAK CLANOVA KOMISIJE--\n";
 		for (size_t j = 0; j < temp.size(); j++)
-			cout << j+1<< ". " << temp[j]->GetImePrezime() << endl;
+			cout << j + 1 << ". " << temp[j]->GetImePrezime() << endl;
 		cout << crt;
 	}
 	return COUT;
 }
 
+void SendNotificationTOStudent(string indeks, double prosjecna, double ocjenaStudenta) {
+	string email = indeks + "@edu.fit.ba";
+	cout << crt << "To: " << email;
+	cout << "\nPostovani, \n\nCestitamo vam na uspjesno odbranjenom zavrsnom radu!\nVasa ocjena je " << ocjenaStudenta;
+	cout << " i ";
+	if (ocjenaStudenta > prosjecna)
+		cout << "veca je od prosjecne ocjene.\n";
+	else
+		cout << "manja je od prosjecne ocjene.\n";
+	cout << "\nZelimo vam puno uspjeha u vasoj karijeri!\n\nFIT Team" << crt;
+
+}
+mutex mutx;
 //Funkcija PronadjiNajStudenta ima zadatak da pronadje broj indeksa studenta koji je na zavrsnom 
 	//radu ostvario najvecu ocjenu kod nastavnika koji posjeduje najvecu prosjecnu ocjenu na zavrsnim radovima.
 	//Ukoliko se kod nastavnika sa najvecom prosjecnom ocjenom pojavi vise studenata sa istom ocjenom, 
@@ -355,8 +370,8 @@ ostream& operator<<(ostream& COUT, Nastavnik& n) {
 	//(mail adresa: brojIndeksa@edu.fit.ba) sa sadrzajem da su svoj zavrsni rad uspjesno odbranili sa 
 	//vecom ili manjom ocjenom od prosjecne. Ukoliko niti jedan od nastavnika ne posjeduje evidentirano
 	//mentorstvo na zavrsnom radu, funkcija vraca tekst: NIJE PRONADJEN
-string PronadjiNajStudenta(Nastavnik* nastavnici[],int max) {
-	if(max<=0)
+string PronadjiNajStudenta(Nastavnik* nastavnici[], int max) {
+	if (max <= 0)
 		return "NIJE PRONADJEN";
 	if (max == 1)
 		return nastavnici[0]->GetIndeksSaNajboljomOcjenom();
@@ -369,16 +384,23 @@ string PronadjiNajStudenta(Nastavnik* nastavnici[],int max) {
 		return "NIJE PRONADJEN";
 
 	double *prosjecneNastavnici = new double[max] {0.0};
-	for (int i = 0; i < max; i++) 
+	for (int i = 0; i < max; i++)
 		prosjecneNastavnici[i] = nastavnici[i]->GetProsjecnuOcjenu();
 	int najvecu = 0;
 
 	for (int i = 1; i < max; i++)
 		if (prosjecneNastavnici[i] > prosjecneNastavnici[najvecu])
 			najvecu = i;
+	
+	Kolekcija<string, ZavrsniRad, 10>& temp = nastavnici[najvecu]->GetTeme();
+	for (int i = 0; i < temp.getTrenutno(); i++) {
+		mutx.lock();
+		thread t(&SendNotificationTOStudent, temp.getElement1(i), prosjecneNastavnici[najvecu], temp.getElement2(i).GetOcjena());
+		t.join();
+		mutx.unlock();
+	}
 	delete[] prosjecneNastavnici;
 	prosjecneNastavnici = nullptr;
-
 	return nastavnici[najvecu]->GetIndeksSaNajboljomOcjenom();
 
 }
@@ -418,31 +440,31 @@ void main()
 		komisija2.push_back(nastavnici[4]);
 		komisija2.push_back(nastavnici[2]);
 
-		
+
 		nastavnici[0]->ZakaziOdbranuRada("IB130011", "25.09.2017", komisija);
 		nastavnici[0]->ZakaziOdbranuRada("IB120051", "25.09.2017", komisija);
 
 		nastavnici[1]->DodajZavrsniRad("IB160262", "Razvoj 5G mreze", KomunikacijskiSistemi, "20.06.2017");
 		nastavnici[1]->DodajZavrsniRad("IB160200", "Qualcomm", KomunikacijskiSistemi, "20.06.2017");
 
-		nastavnici[1]->ZakaziOdbranuRada("IB160262", "25.08.2017",komisija2);
-		nastavnici[1]->ZakaziOdbranuRada("IB160200", "25.08.2017",komisija2);
+		nastavnici[1]->ZakaziOdbranuRada("IB160262", "25.08.2017", komisija2);
+		nastavnici[1]->ZakaziOdbranuRada("IB160200", "25.08.2017", komisija2);
 		nastavnici[1]->ZakaziOdbranuRada("IB140102", "25.01.2018", komisija2);
 
 
 		if ((*nastavnici[1])("IB160262", 9))
-			cout << "Uspjesno ste ocijenili zavrsni rad!" << endl; 
+			cout << "Uspjesno ste ocijenili zavrsni rad!" << endl;
 		if ((*nastavnici[1])("IB160200", 10))
-			cout << "Uspjesno ste ocijenili zavrsni rad!" << endl; 
+			cout << "Uspjesno ste ocijenili zavrsni rad!" << endl;
 		if ((*nastavnici[1])("IB140102", 8))
 			cout << "Uspjesno ste ocijenili zavrsni rad!" << endl;
-		
+
 		try {
 			nastavnici[0]->ZakaziOdbranuRada("IB130111", "25.09.2017", komisija);//student sa brojem indeksa IB130111 
 		}                                                                         //jos uvijek nije prijavio rad
 		catch (exception& obj) {
 			cout << "GRESKA -> " << obj.what() << endl;
-		}														 
+		}
 
 		// Studentu sa brojem indeksa IB130011 dodjeljuje ocjenu 8 na zavrsnom radu. Uslov za
 		// dodjelu ocjene je da student posjeduje definisan datum odbrane i listu clanova komisije. U zavisnosti od 
