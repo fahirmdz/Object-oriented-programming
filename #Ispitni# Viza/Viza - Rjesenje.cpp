@@ -646,7 +646,7 @@ void main()
 		TuristickaViza turisticka(ENGLESKA, dat18082017, dat11122017, "Whitehall Pl, London SW1A 2BD, UK", "nemaju informaciju");
 
 		jasmin.DodajVizu(&turisticka);
-		if (jasmin.DodajStatus(&turisticka, ZAHTJEV_ZAPRIMLJEN))  //--->VRACA FALSE, JER VIZA NIJE  DODATA, JOS UVIJEK!
+		if (jasmin.DodajStatus(&turisticka, ZAHTJEV_ZAPRIMLJEN)) 
 			cout << "Status vize uspijesno promijenjen" << endl;
 		else  
 			cout << "Aplikant " << jasmin.GetImePrezime() << " ne posjeduje evidentiranu trazenu vizu ili status vize nema odgovarajucu vrijednost" << endl;
