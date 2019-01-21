@@ -10,6 +10,7 @@
 #include<thread>
 #include<ctime>
 #include<algorithm>
+#include<iterator>
 using namespace std;
 
 const char* crt = "\n------------------------------------------------------------------\n";
