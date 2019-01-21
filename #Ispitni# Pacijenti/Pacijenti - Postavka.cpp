@@ -17,11 +17,9 @@ int * _trenutnoElemenata;
 
 public:  
 	//1. AddElement :: omogucava dodavanje novog elementa u kolekciju. Onemoguciti ponavljanje
-	//   elemenata, te osigurati automatsko prosiranje kolekcije ukoliko broj elemenata dostigne  
-	//   trenutni maksimum 
+	//   elemenata 
 	//2. RemoveElement :: na osnovu parametara tipa T1 i T2 uklanja element iz kolekcije. Ukoliko je 
-	//   potrebno,prilikom uklanjanja elementa izvrsiti dealokaciju. Onemoguciti pojavljivanje 
-	//   neinicijaliziranih elemenata, te ocuvati redoslijed dodavanja elemenata 
+	//   potrebno,prilikom uklanjanja elementa izvrsiti dealokaciju. Ocuvati redoslijed dodavanja elemenata 
 	//3. PopFront :: uklanja prvi element iz kolekcije(iz oba niza). Ukoliko je kolekcija prazna 
 	//   funkcija vraca false, a u suprotnom funkcija vraca true 
 	//4. operator -=  :: uklanja sve elemnte iz kolekcije koji su identicni onima koje posjeduje 
