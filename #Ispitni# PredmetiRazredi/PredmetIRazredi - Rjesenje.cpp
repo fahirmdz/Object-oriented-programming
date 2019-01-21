@@ -173,10 +173,12 @@ class Datum
 		int trDan = timeinfo.tm_mday, trMjesec = timeinfo.tm_mon + 1, trGodina = timeinfo.tm_year + 1900;
 		if (godina > trGodina)
 			return false;
-		if (godina == trGodina && mjesec > trMjesec)
+		if (godina == trGodina){
+		   if(mjesec > trMjesec)
 			return false;
-		else if (mjesec == trMjesec && dan > trDan)
+		    else if (mjesec == trMjesec && dan > trDan)
 			return false;
+		}
 		return true;
 	}
 
