@@ -333,7 +333,7 @@ public:
 bool operator==(Viza& v1, Viza& v2) {
 	return v1._drzava == v2._drzava && v1._vazenjeDO == v2._vazenjeDO && v1._vazenjeOD == v2._vazenjeOD;
 }
-bool operator!=(Viza& v1, Viza& v2) {return !(v1,v2);}
+bool operator!=(Viza& v1, Viza& v2) {return !(v1==v2);}
 
 class PoslovnaViza :public Viza {
 	string _kompanija; //naziv kompanije koja potvrðuje da posluje sa aplikantom
