@@ -145,9 +145,7 @@ ostream& operator<< (ostream &COUT, Datum &obj) {
 bool operator==(Datum& d1, Datum& d2) {
 	return *d1._dan == *d2._dan && *d1._mjesec == *d2._mjesec && *d1._godina == *d2._godina;
 }
-bool operator!=(Datum& d1, Datum& d2) {
-	return *d1._dan != *d2._dan || *d1._mjesec != *d2._mjesec || *d1._godina != *d2._godina;
-}
+bool operator!=(Datum& d1, Datum& d2) {return !(d1==d2);}
 
 template<class T1, class T2, int max>
 class FITKolekcija {
@@ -331,22 +329,12 @@ public:
 
 	friend bool operator==(Viza&, Viza&);
 	friend bool operator!=(Viza&, Viza&);
-	friend bool operator<(Viza&, Viza&);
-	friend bool operator>(Viza&, Viza&);
 };
 bool operator==(Viza& v1, Viza& v2) {
 	return v1._drzava == v2._drzava && v1._vazenjeDO == v2._vazenjeDO && v1._vazenjeOD == v2._vazenjeOD;
 }
-bool operator!=(Viza& v1, Viza& v2) {
-	return v1._drzava != v2._drzava || v1._vazenjeDO != v2._vazenjeDO || v1._vazenjeOD != v2._vazenjeOD;
-}
-bool operator<(Viza& v1, Viza& v2) {
-	return false;
-}
-bool operator>(Viza& v1, Viza& v2) {
-	return false;
+bool operator!=(Viza& v1, Viza& v2) {return !(v1,v2);}
 
-}
 class PoslovnaViza :public Viza {
 	string _kompanija; //naziv kompanije koja potvrðuje da posluje sa aplikantom
 public:
