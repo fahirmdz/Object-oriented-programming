@@ -119,9 +119,7 @@ public:
 bool operator==(DatumVrijeme& dv1, DatumVrijeme& dv2) {
 	return *dv1._godina == *dv2._godina && *dv1._mjesec == *dv2._mjesec && *dv1._dan == *dv2._dan && *dv1._sati == *dv2._sati && *dv1._minuti == *dv2._minuti;
 }
-bool operator!=(DatumVrijeme& dv1, DatumVrijeme& dv2) {
-	return *dv1._godina != *dv2._godina || *dv1._mjesec != *dv2._mjesec || *dv1._dan != *dv2._dan || *dv1._sati != *dv2._sati || *dv1._minuti != *dv2._minuti;
-}
+bool operator!=(DatumVrijeme& dv1, DatumVrijeme& dv2) {return !(d1==d2);}
 
 ostream& operator<< (ostream &COUT, DatumVrijeme &obj){
 	COUT << *obj._dan << "." << *obj._mjesec << "." << *obj._godina << " " << *obj._sati << ":" << *obj._minuti;
