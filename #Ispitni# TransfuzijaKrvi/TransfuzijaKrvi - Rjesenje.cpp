@@ -106,12 +106,17 @@ public:
 		return d1d - d2d;
 	}
 	friend ostream &operator<<(ostream&, const Datum&);
+	friend bool operator==(Datum&,Datum&);
+	friend bool operator!=(Datum&,Datum&);
 };
 ostream& operator<<(ostream& COUT, const Datum& obj) {
 	COUT << *obj._dan << " " << *obj._mjesec << " " << *obj._godina << endl;
 	return COUT;
 }
-
+bool operator==(Datum& d1,Datum& d2){
+	return *d1._godina==*d2._godina && *d1._mjesec==*d2._mjesec && *d1._dan==*d2._dan;
+}
+bool operator!=(Datum& d1,Datum& d2){return !(d1==d2);}
 template <class T1, class T2, int max, Sortiranje sortiranje = ASC>
 class Kolekcija
 {
