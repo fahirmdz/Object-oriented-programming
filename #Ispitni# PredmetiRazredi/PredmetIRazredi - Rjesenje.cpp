@@ -222,7 +222,7 @@ ostream& operator<< (ostream &COUT, const Datum &obj){
 	return COUT;
 }
 bool operator==(Datum& d1, Datum &d2) {return *d1._godina == *d2._godina && *d1._mjesec == *d2._mjesec && *d1._dan == *d2._dan;}
-bool operator!=(Datum& d1, Datum &d2) { return *d1._godina != *d2._godina || *d1._mjesec != *d2._mjesec || *d1._dan != *d2._dan; }
+bool operator!=(Datum& d1, Datum &d2) { return !(d1==d2); }
 
 bool ProvjeriValidnostBrojaTelefona(string telefon) { return regex_match(telefon, regex("\\+?\\d{0,3}[-(]?\\d{2}[-)]?[/-]?\\d{3}[-\\s]?\\d{3}")); }
 
