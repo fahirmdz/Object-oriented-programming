@@ -109,9 +109,7 @@ ostream& operator<< (ostream &COUT, const Datum &obj) {
 bool operator==(Datum& d1, Datum& d2) {
 	return *d1._godina == *d2._godina && *d1._mjesec == *d2._mjesec && *d1._dan == *d2._dan;
 }
-bool operator!=(Datum& d1, Datum& d2) {
-	return *d1._godina != *d2._godina || *d1._mjesec != *d2._mjesec || *d1._dan != *d2._dan;
-}
+bool operator!=(Datum& d1, Datum& d2) {return !(d1==d2);}
 
 
 Datum GetCurrentDate() {
@@ -247,9 +245,7 @@ public:
 bool operator==(Kurs& k1, Kurs& k2) {
 	return k1._kurs == k2._kurs && k1._pocetak == k2._pocetak && strcmp(k1._imePredavaca, k2._imePredavaca) == 0;
 }
-bool operator!=(Kurs& k1, Kurs& k2) {
-	return k1._kurs != k2._kurs || k1._pocetak != k2._pocetak || strcmp(k1._imePredavaca, k2._imePredavaca) != 0;
-}
+bool operator!=(Kurs& k1, Kurs& k2) {return !(k1==k2);}
 ostream& operator<<(ostream& COUT, const Kurs& k) {
 	cout << crt << "Kurs: " << kurseviChar[k._kurs];
 	cout << "\nDatum pocetka: " << k._pocetak;
@@ -336,14 +332,7 @@ bool operator==(Polaznik& p1, Polaznik& p2) {
 	}
 	return false;
 }
-bool operator!=(Polaznik& p1, Polaznik& p2) {
-	if (strcmp(p1._imePrezime, p2._imePrezime) != 0 || p1._uspjesnoOkoncaniKursevi.GetTrenutno() != p2._uspjesnoOkoncaniKursevi.GetTrenutno())
-		return true;
-		for (int i = 0; i < p1._uspjesnoOkoncaniKursevi.GetTrenutno(); i++)
-			if (*p1._uspjesnoOkoncaniKursevi.GetElement1(i) != *p2._uspjesnoOkoncaniKursevi.GetElement1(i))
-				return true;
-		return false;
-}
+bool operator!=(Polaznik& p1, Polaznik& p2) {return !(p1==p2);}
 
 
 int Polaznik::ID = 1;
