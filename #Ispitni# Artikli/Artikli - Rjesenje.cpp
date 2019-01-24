@@ -192,7 +192,12 @@ public:
 bool operator==(Datum& d1, Datum& d2) {
 	return *d1._godina == *d2._godina && *d1._mjesec == *d2._mjesec && *d1._dan == *d2._dan;
 }
-bool operator!=(Datum& d1, Datum& d2) {return !(d1==d2);}
+bool operator!=(Datum& d1, Datum& d2) {
+   if(d1==d2)
+       return false;
+    else
+      return true;
+}
 ostream& operator<< (ostream &COUT, const Datum &obj){
 	COUT << *obj._dan << "/" << *obj._mjesec << "/" << *obj._godina;
 	return COUT;
@@ -236,7 +241,12 @@ ostream& operator<<(ostream& COUT,const Osoba& o) {
 	return COUT;
 }
 bool operator==(Osoba& o1, Osoba& o2) { return strcmp(o1._imePrezime, o2._imePrezime) == 0 && *o1._datumRodjenja == *o2._datumRodjenja; }
-bool operator!=(Osoba& o1, Osoba& o2) { return !(o1==o2); }
+bool operator!=(Osoba& o1, Osoba& o2) { 
+if(o1==o2)
+	return false;
+else
+	return true;
+}
 
 
 
@@ -255,7 +265,12 @@ public:
 	friend ostream& operator<<(ostream&, const Kupac&);
 };
 bool operator==(Kupac& k1, Kupac& k2) { return *dynamic_cast<Osoba*>(&k1) == *dynamic_cast<Osoba*>(&k2) && k1._odobreniPopust == k2._odobreniPopust; }
-bool operator!=(Kupac& k1, Kupac& k2) { return !(k1==k2);}
+bool operator!=(Kupac& k1, Kupac& k2) {
+if(k1==k2)
+	return false;
+else
+	return true;
+}
 ostream& operator<<(ostream& COUT, const Kupac& k) {
 	cout << *dynamic_cast<Osoba*>(const_cast<Kupac*>(&k)) << endl;
 	cout << "Odobreni popust: " << setprecision(2) << k._odobreniPopust * 100 << "%" << crt;
@@ -306,7 +321,12 @@ ostream& operator<< (ostream &COUT, const Artikal &obj){
 	return COUT;
 }
 bool operator==(Artikal& a1, Artikal& a2) { return a1._barCode == a2._barCode && strcmp(a1._naziv, a2._naziv)==0 && a1._cijena == a2._cijena; }
-bool operator!=(Artikal& a1, Artikal& a2) { return !(a1==a2);}
+bool operator!=(Artikal& a1, Artikal& a2) { 
+if(a1==a2)
+	return false;
+else
+	return true;
+}
 
 static int brojRacuna= 1;
 char* GenerisiSljedeciBrojRacuna() {
