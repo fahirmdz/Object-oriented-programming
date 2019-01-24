@@ -109,7 +109,11 @@ ostream& operator<< (ostream &COUT, const Datum &obj) {
 bool operator==(Datum& d1, Datum& d2) {
 	return *d1._godina == *d2._godina && *d1._mjesec == *d2._mjesec && *d1._dan == *d2._dan;
 }
-bool operator!=(Datum& d1, Datum& d2) {return !(d1==d2);}
+bool operator!=(Datum& d1, Datum& d2) {
+if(d1==d2)
+	return false;
+return true;
+}
 
 
 Datum GetCurrentDate() {
@@ -245,7 +249,11 @@ public:
 bool operator==(Kurs& k1, Kurs& k2) {
 	return k1._kurs == k2._kurs && k1._pocetak == k2._pocetak && strcmp(k1._imePredavaca, k2._imePredavaca) == 0;
 }
-bool operator!=(Kurs& k1, Kurs& k2) {return !(k1==k2);}
+bool operator!=(Kurs& k1, Kurs& k2) {
+if(k1==k2)
+	return false;
+return true;
+}
 ostream& operator<<(ostream& COUT, const Kurs& k) {
 	cout << crt << "Kurs: " << kurseviChar[k._kurs];
 	cout << "\nDatum pocetka: " << k._pocetak;
@@ -332,7 +340,11 @@ bool operator==(Polaznik& p1, Polaznik& p2) {
 	}
 	return false;
 }
-bool operator!=(Polaznik& p1, Polaznik& p2) {return !(p1==p2);}
+bool operator!=(Polaznik& p1, Polaznik& p2) {
+if(p1==p2)
+	return false;
+return true;
+}
 
 
 int Polaznik::ID = 1;
