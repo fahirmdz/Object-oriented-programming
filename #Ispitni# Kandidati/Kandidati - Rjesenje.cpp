@@ -255,7 +255,11 @@ ostream& operator<< (ostream &COUT,const DatumVrijeme &obj) {
 bool operator==(DatumVrijeme& d1, DatumVrijeme& d2) {
 	return *d1._godina == *d2._godina && *d1._mjesec == *d2._mjesec && *d1._dan == *d2._dan && *d1._sati == *d2._sati && *d1._minuti == *d2._minuti;
 }
-bool operator!=(DatumVrijeme& d1, DatumVrijeme& d2) { return !(d1 == d2); }
+bool operator!=(DatumVrijeme& d1, DatumVrijeme& d2) { 
+if(d1==d2)
+	return false;
+return true;
+}
 
 
 class Predmet {
@@ -308,7 +312,11 @@ ostream& operator<< (ostream &COUT, Predmet &obj) {
 	return COUT;
 }
 bool operator==(Predmet& p1, Predmet& p2) { return strcmp(p1._naziv, p2._naziv) == 0 && p1._napomena == p2._napomena && p1._ocjena == p2._ocjena; }
-bool operator!=(Predmet& p1, Predmet& p2) { return !(p1 == p2); }
+bool operator!=(Predmet& p1, Predmet& p2) { 
+if(p1==p2)
+	return false;
+return true;
+}
 
 struct Uspjeh {
 	eRazred _razred;
@@ -390,7 +398,11 @@ bool operator==(Uspjeh& u1, Uspjeh& u2) {
 		}
 		return false;
 }
-bool operator!=(Uspjeh& u1, Uspjeh& u2) { return !(u1 == u2); }
+bool operator!=(Uspjeh& u1, Uspjeh& u2) { 
+if(u1==u2)
+    return false;
+return true;
+}
 
 class Kandidat {
 	char * _imePrezime;
@@ -534,7 +546,9 @@ bool operator==(Kandidat& k1, Kandidat& k2) {
 	return strcmp(k1._imePrezime, k2._imePrezime) && k1._emailAdresa == k2._emailAdresa && k1._brojTelefona == k2._brojTelefona;
 }
 bool operator!=(Kandidat& k1, Kandidat& k2) {
-	return !(k1 == k2);
+	if(k1==k2)
+		return false;
+return true;
 }
 void main() {
 	/****************************************************************************
